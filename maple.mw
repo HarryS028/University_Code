@@ -1,0 +1,86 @@
+restart; with(plots):with(RandomTools):with(LinearAlgebra):
+
+RanCol:=proc(columns,i)
+local colnum, list1;
+randomize():
+list1:=Generate('list'('integer'('range'=1..columns),500));
+colnum:=list1[i]:
+return colnum:
+end:
+
+acell:=(i,j,cellColor)->polygonplot([[1-j,-i],[-j,-i],[-j,1-i],[1-j,1-i]],color=cellColor,scaling=constrained,axes=none):
+
+automaton:=proc(M) local rows, columns, i, j, coloredM:
+rows:=op(1,M)[1]:
+columns:=op(1,M)[2]:
+for i from 1 to rows do:
+for j from 1 to columns do:
+if M[i,j]=0 then coloredM[i,j]:=acell(i,-j,white):
+fi:
+if M[i,j]=1 then coloredM[i,j]:=acell(i,-j,black):
+fi:
+od:
+od:
+display(seq(seq(coloredM[a,b],b=1..columns),a=1..rows)):
+end:
+
+Tetris2:=proc(A) local i, colnum, cols, rows, NewMat, j, ran, summ:
+
+cols:=ColumnDimension(A): rows:=RowDimension(A):
+NewMat:=A:
+j:=1:
+
+colnum:=RanCol(cols,j);
+b;
+summ:=0;
+for i from 1 to colnum do
+summ:=summ+NewMat(1,i);
+od:
+while NewMat(1,colnum)=0 do
+#while summ<cols do
+colnum:=RanCol(cols,j);
+j:=j+1:
+
+if colnum=1 then
+for i from 1 to rows-1 do
+if NewMat(i,2)=1 then NewMat(i,1):=1: goto(b):
+elif NewMat(i+1,colnum)=1 then NewMat(i,colnum):=1: goto(b):
+elif i=rows-1 then NewMat(i+1,colnum):=1: goto(b):
+else next:
+fi:
+od:
+
+elif colnum=cols then
+for i from 1 to rows-1 do
+if NewMat(i,colnum-1)=1 then NewMat(i,colnum):=1: goto(b):
+elif NewMat(i+1,colnum)=1 then NewMat(i,colnum):=1: goto(b):
+elif i=rows-1 then NewMat(i+1,colnum):=1: goto(b):
+else next:
+fi:
+od:
+
+else
+for i from 1 to rows-1 do
+if NewMat(i,colnum-1)=1 or NewMat(i,colnum+1)=1 then NewMat(i,colnum):=1: goto(b):
+elif NewMat(i+1,colnum)=1 then NewMat(i,colnum):=1: goto(b):
+elif i=rows-1 then NewMat(i+1,colnum):=1: goto(b):
+else next:
+fi:
+od:
+
+fi:
+od:
+
+return NewMat;
+end:
+
+
+Amat1:=Matrix([[0,0,0],[0,1,0],[0,0,0]]):
+Amat2:=Matrix([[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]):
+Amat3:=Matrix(10,10):
+AAA:=Tetris2(Amat3);
+
+RanCol(3,2);
+
+automaton(AAA);
+
