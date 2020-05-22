@@ -4,7 +4,7 @@
 
 Solve the elliptic PDE:
 
-<img src="images/ .png" width="100">
+<img src="images%20for%20github/pendula_equations.png" >
 
 Subject to the boundary conditions:
 
