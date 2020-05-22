@@ -1,6 +1,6 @@
 # University coding projects
 
-## Gauss-Seidel task 
+## Gauss-Seidel task
 
 Solve the elliptic PDE:
 
